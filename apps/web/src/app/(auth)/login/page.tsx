@@ -3,8 +3,7 @@
 import { FormEvent, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Shield } from 'lucide-react';
-
+import { BrandMark } from '@/components/brand-mark';
 import { login } from '@/features/auth/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -47,8 +46,8 @@ export default function LoginPage() {
   return (
     <Card className="border-0 shadow-none lg:border lg:shadow-sm">
       <CardHeader className="space-y-1 text-center lg:text-left">
-        <div className="mx-auto mb-2 flex size-10 items-center justify-center rounded-lg bg-primary text-primary-foreground lg:mx-0">
-          <Shield className="size-5" />
+        <div className="mx-auto mb-2 flex justify-center lg:justify-start">
+          <BrandMark iconOnly />
         </div>
         <CardTitle className="text-2xl">Welcome back</CardTitle>
         <CardDescription>Sign in to your Qualti account to manage inspections</CardDescription>

@@ -1,37 +1,39 @@
-import Link from "next/link"
-import { ArrowRight, Shield } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
+import { DesignPartnerSection } from '@/components/marketing/design-partner-section';
+import { FaqSection } from '@/components/marketing/faq-section';
+import { FinalCta } from '@/components/marketing/final-cta';
+import { HeroSection } from '@/components/marketing/hero-section';
+import { InspectionCoverage } from '@/components/marketing/inspection-coverage';
+import { OutcomesSection } from '@/components/marketing/outcomes-section';
+import { PainSection } from '@/components/marketing/pain-section';
+import { ProductPreviewSection } from '@/components/marketing/product-preview-section';
+import { SiteFooter } from '@/components/marketing/site-footer';
+import { SiteHeader } from '@/components/marketing/site-header';
+import { WorkflowSection } from '@/components/marketing/workflow-section';
+import { structuredData } from '@/lib/marketing-content';
 
 export default function HomePage() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col items-start justify-center gap-6 px-6">
-      <div className="flex items-center gap-2">
-        <div className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-          <Shield className="size-5" />
-        </div>
-        <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
-          Qualti.io
-        </p>
-      </div>
-      <h1 className="text-4xl font-semibold tracking-tight">
-        Enterprise inspection management
-      </h1>
-      <p className="text-lg text-muted-foreground">
-        Run structured inspections, track compliance, and keep teams aligned across
-        every site.
-      </p>
-      <div className="flex flex-wrap gap-3">
-        <Button asChild>
-          <Link href="/app">
-            Open dashboard
-            <ArrowRight className="size-4" />
-          </Link>
-        </Button>
-        <Button variant="outline" asChild>
-          <Link href="/login">Sign in</Link>
-        </Button>
-      </div>
-    </main>
-  )
+    <div className="min-h-screen bg-marketing-stage">
+      <SiteHeader />
+      <main id="main-content">
+        <HeroSection />
+        <PainSection />
+        <WorkflowSection />
+        <InspectionCoverage />
+        <ProductPreviewSection />
+        <OutcomesSection />
+        <DesignPartnerSection />
+        <FaqSection />
+        <FinalCta />
+      </main>
+      <SiteFooter />
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData).replace(/</g, '\\u003c'),
+        }}
+      />
+    </div>
+  );
 }

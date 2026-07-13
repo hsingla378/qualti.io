@@ -10,9 +10,9 @@ import {
   PanelLeftClose,
   PanelLeft,
   Settings,
-  Shield,
 } from "lucide-react"
 
+import { BrandMark } from "@/components/brand-mark"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { OrgSwitcher } from "@/components/layout/org-switcher"
@@ -63,13 +63,15 @@ export function AppSidebar({
         )}
       >
         <div className="flex h-14 items-center gap-2 border-b border-sidebar-border px-4">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Shield className="size-4" />
-          </div>
-          {!collapsed && (
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-semibold">Qualti.io</p>
-              <p className="truncate text-xs text-muted-foreground">Inspection platform</p>
+          {collapsed ? (
+            <BrandMark compact iconOnly />
+          ) : (
+            <div className="flex min-w-0 items-center gap-2">
+              <BrandMark compact iconOnly />
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold">Qualti.io</p>
+                <p className="truncate text-xs text-muted-foreground">Inspection platform</p>
+              </div>
             </div>
           )}
         </div>

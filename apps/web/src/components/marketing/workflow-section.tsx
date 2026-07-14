@@ -11,14 +11,14 @@ export function WorkflowSection() {
       <div className="marketing-ruler absolute inset-0 opacity-30" aria-hidden="true" />
       <div className="relative">
         <SectionIntro
-          eyebrow="The inspection loop"
-          title="From assignment on the floor to dispatch approval"
+          eyebrow="Workflow"
+          title="From field audit to buyer-ready report"
           align="center"
         >
           <p>
-            Built around how furniture factories actually finish QC: prepare the job, inspect the
-            piece, attach evidence, close rework, approve the batch, and hand the buyer a clean
-            report.
+            Built around how furniture factories finish QC: prepare the job, inspect on the floor,
+            log defects with evidence, close rework, approve the batch, and generate a clean report
+            — with AI assist where it saves time.
           </p>
         </SectionIntro>
 

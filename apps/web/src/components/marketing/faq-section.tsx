@@ -9,7 +9,7 @@ import { SectionContainer, SectionIntro } from './section-container';
 export function FaqSection() {
   return (
     <SectionContainer id="faq" className="bg-white">
-      <SectionIntro title="Questions furniture QC teams usually ask" align="center" />
+      <SectionIntro title="Questions AI-assisted QC teams usually ask" align="center" />
       <Stagger className="mx-auto mt-12 max-w-3xl divide-y divide-marketing-line" stagger={0.05}>
         {faqs.map((faq, index) => (
           <StaggerItem key={faq.question}>

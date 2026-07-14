@@ -26,13 +26,6 @@ export const monthlyInspectionRanges = [
   'Not sure',
 ] as const;
 
-export const preferredMeetingTypes = [
-  'Online meeting',
-  'Office meeting',
-  'Factory visit',
-  'No preference',
-] as const;
-
 export const leadFormSchema = z
   .object({
     fullName: z
@@ -65,15 +58,9 @@ export const leadFormSchema = z
       .min(2, 'Role is required')
       .max(80, 'Role must be 80 characters or less'),
     companyType: z.enum(companyTypes, 'Select a company type'),
-    preferredMeetingType: z.enum(preferredMeetingTypes, 'Select a preferred meeting type'),
     currentQcProcess: z.string().trim().optional(),
     monthlyInspections: z.string().trim().optional(),
     message: z.string().trim().max(600, 'Message must be 600 characters or less').optional(),
-    preferredDateTime: z
-      .string()
-      .trim()
-      .max(120, 'Preferred date/time must be 120 characters or less')
-      .optional(),
     consent: z.boolean().refine((value) => value, 'Consent is required before submitting'),
   })
   .superRefine((values, context) => {
@@ -90,20 +77,15 @@ export type LeadFormValues = z.infer<typeof leadFormSchema>;
 
 export type LeadSubmissionInput = Omit<
   LeadFormValues,
-  | 'workEmail'
-  | 'phone'
-  | 'currentQcProcess'
-  | 'monthlyInspections'
-  | 'message'
-  | 'preferredDateTime'
+  'workEmail' | 'phone' | 'currentQcProcess' | 'monthlyInspections' | 'message'
 > & {
   workEmail?: string;
   phone?: string;
   currentQcProcess?: string;
   monthlyInspections?: string;
   message?: string;
-  preferredDateTime?: string;
-  source: 'qualti-landing-page';
+  source: 'qualti-waitlist';
+  intent: 'waitlist';
 };
 
 export function toLeadSubmissionInput(values: LeadFormValues): LeadSubmissionInput {
@@ -114,7 +96,7 @@ export function toLeadSubmissionInput(values: LeadFormValues): LeadSubmissionInp
     currentQcProcess: values.currentQcProcess || undefined,
     monthlyInspections: values.monthlyInspections || undefined,
     message: values.message || undefined,
-    preferredDateTime: values.preferredDateTime || undefined,
-    source: 'qualti-landing-page',
+    source: 'qualti-waitlist',
+    intent: 'waitlist',
   };
 }

@@ -14,16 +14,17 @@ const bricolage = Bricolage_Grotesque({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Qualti.io | Furniture Quality Inspection and Corrective Action Software',
+    default: 'Qualti.io | AI-Powered Furniture Quality Inspection',
     template: '%s | Qualti.io',
   },
   description:
-    'Furniture quality inspection software for factory floors and pre-dispatch decisions. Capture measurements, defect photos, rework and buyer-ready reports in one record.',
+    'AI-powered quality control for furniture inspections — field audits, defect logging and buyer-ready inspection reports in one record.',
   keywords: [
+    'AI furniture QC',
     'furniture quality inspection software',
+    'field audit software',
+    'defect logging',
     'pre-dispatch inspection',
-    'corrective action tracking',
-    'furniture QC checklist',
     'quality control reports',
   ],
   alternates: {
@@ -39,9 +40,9 @@ export const metadata: Metadata = {
     shortcut: '/brand/favicon-32.png',
   },
   openGraph: {
-    title: 'Qualti.io | Furniture Quality Inspection and Corrective Action Software',
+    title: 'Qualti.io | AI-Powered Furniture Quality Inspection',
     description:
-      'Furniture quality inspection software for factory floors and pre-dispatch decisions. Capture measurements, defect photos, rework and buyer-ready reports in one record.',
+      'AI-powered quality control for furniture inspections — field audits, defect logging and buyer-ready inspection reports in one record.',
     url: '/',
     siteName: 'Qualti.io',
     type: 'website',
@@ -56,9 +57,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
-    title: 'Qualti.io | Furniture Quality Inspection and Corrective Action Software',
+    title: 'Qualti.io | AI-Powered Furniture Quality Inspection',
     description:
-      'Furniture quality inspection software for factory floors and pre-dispatch decisions. Capture measurements, defect photos, rework and buyer-ready reports in one record.',
+      'AI-powered quality control for furniture inspections — field audits, defect logging and buyer-ready inspection reports in one record.',
     images: ['/brand/qualti-icon.png'],
   },
   robots: {

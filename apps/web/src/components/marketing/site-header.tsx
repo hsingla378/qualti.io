@@ -37,10 +37,10 @@ export function SiteHeader() {
   return (
     <motion.header
       className={cn(
-        'fixed inset-x-0 top-0 z-50 transition-colors duration-300',
+        'fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300',
         overHero
           ? 'border-b-0 bg-transparent'
-          : 'border-b border-marketing-line/70 bg-marketing-bg/90 backdrop-blur-md supports-[backdrop-filter]:bg-marketing-bg/75',
+          : 'border-b border-marketing-line bg-marketing-bg shadow-sm',
       )}
       initial={animateIn ? { opacity: 0, y: -8 } : false}
       animate={{ opacity: 1, y: 0 }}
@@ -93,12 +93,12 @@ export function SiteHeader() {
             )}
           >
             <a
-              href="#lead-form"
+              href="#waitlist"
               onClick={() =>
-                trackMarketingEvent('design_partner_join_clicked', { placement: 'header' })
+                trackMarketingEvent('waitlist_join_clicked', { placement: 'header' })
               }
             >
-              Join as design partner
+              Join the waitlist
             </a>
           </Button>
         </div>
@@ -149,14 +149,14 @@ export function SiteHeader() {
               </a>
             ))}
             <a
-              href="#lead-form"
+              href="#waitlist"
               onClick={() => {
                 closeMenu();
-                trackMarketingEvent('design_partner_join_clicked', { placement: 'mobile_nav' });
+                trackMarketingEvent('waitlist_join_clicked', { placement: 'mobile_nav' });
               }}
               className="mt-3 block rounded-md bg-marketing-primary px-3 py-3 text-center text-base font-semibold text-marketing-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-marketing-primary"
             >
-              Join as design partner
+              Join the waitlist
             </a>
           </div>
         </nav>

@@ -24,7 +24,7 @@ export function HeroSection() {
   return (
     <section
       id="product"
-      aria-label="Qualti.io furniture quality inspection software"
+      aria-label="Qualti.io AI-powered furniture quality inspection"
       className="relative isolate min-h-[min(100svh,900px)] overflow-hidden bg-marketing-stage"
     >
       <motion.div
@@ -97,7 +97,7 @@ export function HeroSection() {
                 : undefined
             }
           >
-            Final furniture inspections you can defend at dispatch.
+            AI-powered quality control for furniture inspections.
           </motion.h1>
           <motion.p
             className="mt-5 max-w-md text-base leading-7 text-white/68 sm:text-lg sm:leading-8"
@@ -110,8 +110,8 @@ export function HeroSection() {
                 : undefined
             }
           >
-            Dimensions, defect photos, rework and buyer reports in one record — instead of paper,
-            Excel and WhatsApp.
+            Field audits, defect logging and inspection reports — assisted by AI, built for the
+            factory floor and the manager who decides what ships.
           </motion.p>
 
           <motion.div
@@ -130,11 +130,11 @@ export function HeroSection() {
               className="marketing-cta group h-12 rounded-md bg-white px-5 text-base text-marketing-ink hover:bg-white/90"
             >
               <TrackedLink
-                href="#lead-form"
-                event="design_partner_join_clicked"
+                href="#waitlist"
+                event="waitlist_join_clicked"
                 eventProperties={{ placement: 'hero' }}
               >
-                Join as design partner
+                Join the waitlist
                 <ArrowRight
                   className="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
                   aria-hidden="true"
@@ -151,7 +151,7 @@ export function HeroSection() {
                 event="workflow_view_clicked"
                 eventProperties={{ placement: 'hero' }}
               >
-                See the inspection loop
+                See the workflow
                 <motion.span
                   className="inline-flex"
                   animate={animateIn ? { y: [0, 3, 0] } : undefined}

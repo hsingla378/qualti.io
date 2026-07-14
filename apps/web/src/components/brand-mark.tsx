@@ -20,7 +20,6 @@ export function BrandMark({
 
   return (
     <div className={cn('flex items-center gap-2.5', className)}>
-      {/* eslint-disable-next-line @next/next/no-img-element -- static brand asset used across marketing and app chrome */}
       <img
         src="/brand/qualti-icon.png"
         alt=""

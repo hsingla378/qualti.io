@@ -9,12 +9,15 @@ import { SectionContainer, SectionIntro } from './section-container';
 
 export function OutcomesSection() {
   return (
-    <SectionContainer className="bg-marketing-panel">
+    <SectionContainer id="outcomes" className="bg-marketing-panel">
       <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-16">
-        <SectionIntro title="Built to sharpen the process — not add another admin layer">
+        <SectionIntro
+          eyebrow="Outcomes"
+          title="Built to sharpen QC — not add another admin layer"
+        >
           <p>
-            The product goal is practical: evidence that is easier to collect, decisions that are
-            easier to defend, and recurring quality issues that are easier to see across batches.
+            Practical results: evidence that stays attached, defects that get owned, reports that
+            ship with the batch, and recurring issues that stop hiding across chat threads.
           </p>
         </SectionIntro>
 

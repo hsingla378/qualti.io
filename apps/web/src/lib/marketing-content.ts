@@ -1,35 +1,63 @@
 import {
   BadgeCheck,
   Boxes,
-  ClipboardCheck,
   Factory,
   FileCheck2,
-  Gauge,
-  Hammer,
   ListChecks,
-  PackageCheck,
-  Ruler,
   ShieldCheck,
-  Wrench,
+  Sparkles,
 } from 'lucide-react';
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://qualti.io';
 export const QUALTI_CONTACT_EMAIL = 'himanshu@qualti.io';
 
 export const navigationItems = [
-  { label: 'Product', href: '#product' },
+  { label: 'Capabilities', href: '#capabilities' },
   { label: 'Workflow', href: '#workflow' },
-  { label: 'Coverage', href: '#features' },
-  { label: 'Partners', href: '#design-partner' },
+  { label: 'Product', href: '#product-pillars' },
+  { label: 'Outcomes', href: '#outcomes' },
+  { label: 'Waitlist', href: '#waitlist' },
   { label: 'FAQ', href: '#faq' },
 ] as const;
 
-export const currentWorkflow = [
-  'Paper checklist',
-  'Photos on WhatsApp',
-  'Measurements in Excel',
-  'Rework through phone calls',
-  'PDF created manually',
+/** Resume-style "Technical Skills" → product capabilities */
+export const capabilityGroups = [
+  {
+    label: 'AI assistance',
+    items: [
+      'Defect photo tagging',
+      'Severity suggestions',
+      'Recurring-issue signals',
+      'Report draft assist',
+    ],
+  },
+  {
+    label: 'Field inspections',
+    items: [
+      'Mobile checklists',
+      'Measurements & tolerances',
+      'Photo evidence',
+      'Offline-ready capture',
+    ],
+  },
+  {
+    label: 'Defect & rework',
+    items: [
+      'Critical / major / minor',
+      'Corrective actions',
+      'Rework verification',
+      'Approval history',
+    ],
+  },
+  {
+    label: 'Reporting',
+    items: [
+      'Buyer-ready PDFs',
+      'Dispatch decisions',
+      'Batch audit trail',
+      'Export & share',
+    ],
+  },
 ] as const;
 
 export const painConsequences = [
@@ -43,19 +71,19 @@ export const painConsequences = [
 export const workflowSteps = [
   {
     title: 'Prepare the inspection',
-    body: 'Select the buyer, purchase order, product, factory, inspection type and checklist.',
+    body: 'Select the buyer, purchase order, product, factory, inspection type and checklist — AI can prefill common templates from past jobs.',
   },
   {
     title: 'Inspect on the factory floor',
-    body: 'Record dimensions, material checks, workmanship, stability, function and packaging.',
+    body: 'Record dimensions, material checks, workmanship, stability, function and packaging on a mobile-first checklist.',
   },
   {
     title: 'Capture defects with evidence',
-    body: 'Add photographs, notes, affected quantities and critical, major or minor severity.',
+    body: 'Add photographs, notes, affected quantities and severity. AI helps tag defects and suggest severity from similar past findings.',
   },
   {
     title: 'Assign and verify rework',
-    body: 'Send corrective actions to production teams and collect corrected evidence.',
+    body: 'Send corrective actions to production teams and collect corrected evidence before the batch moves.',
   },
   {
     title: 'Approve the batch',
@@ -63,132 +91,96 @@ export const workflowSteps = [
   },
   {
     title: 'Generate the report',
-    body: 'Produce a consistent buyer-ready report with measurements, defects, evidence and approval status.',
+    body: 'Produce a consistent buyer-ready report with measurements, defects, evidence and approval status — drafted faster with AI assist.',
   },
 ] as const;
 
-export const inspectionCoverage = [
+/** Resume-style "Projects" → three product pillars */
+export const productPillars = [
   {
-    title: 'Order and product verification',
-    icon: ClipboardCheck,
+    title: 'Field audits',
+    body: 'Mobile-first inspections on the factory floor — checklists, measurements, photos and pass/fail decisions where the work happens.',
     items: [
-      'Buyer and purchase order',
-      'Product code and approved sample',
-      'Quantity and selected sample',
-      'Material and finish specification',
+      'Buyer, PO and product verification',
+      'Dimensions vs tolerances',
+      'Workmanship and construction checks',
+      'Packaging and dispatch readiness',
     ],
   },
   {
-    title: 'Dimensions and tolerances',
-    icon: Ruler,
+    title: 'Defect logging',
+    body: 'Every defect stays attached to evidence, severity and ownership — so recurring issues stop disappearing into chat threads.',
     items: [
-      'Actual versus required measurements',
-      'Configurable tolerances',
-      'Pass/fail evaluation',
-      'Measurement evidence',
-    ],
-  },
-  {
-    title: 'Workmanship and appearance',
-    icon: Gauge,
-    items: [
-      'Scratches and dents',
-      'Cracks and chips',
-      'Colour or finish variation',
-      'Glue marks, gaps and alignment',
-    ],
-  },
-  {
-    title: 'Construction and functionality',
-    icon: Hammer,
-    items: [
-      'Joint strength',
-      'Hardware and assembly',
-      'Drawer and door movement',
-      'Stability, wobble and load checks',
-    ],
-  },
-  {
-    title: 'Packaging and dispatch',
-    icon: PackageCheck,
-    items: [
-      'Product protection',
-      'Carton condition',
-      'Labels and barcodes',
-      'Hardware packets and instructions',
-    ],
-  },
-  {
-    title: 'Defects and corrective actions',
-    icon: Wrench,
-    items: [
+      'Photo evidence per defect',
       'Critical, major and minor severity',
-      'Responsibility and due dates',
-      'Rework evidence',
-      'Approval and reopening history',
+      'AI tagging and severity suggestions',
+      'Rework assignment and verification',
+    ],
+  },
+  {
+    title: 'Inspection reports',
+    body: 'Buyer-ready reports with measurements, defects, evidence and the dispatch decision — one record instead of a manual PDF scramble.',
+    items: [
+      'Consistent report templates',
+      'AI-assisted draft summaries',
+      'Dispatch approval status',
+      'Shareable audit trail',
     ],
   },
 ] as const;
 
+/** Resume-style "Achievements" → product outcomes */
 export const outcomes = [
-  'Create consistent inspection reports faster',
-  'Keep photographs attached to the correct defect',
+  'Run field audits without losing evidence in WhatsApp or Excel',
+  'Log defects with photos, severity and ownership in one place',
+  'Generate buyer-ready inspection reports faster with AI assist',
   'Make open rework visible before dispatch',
   'Standardise QC across products and factories',
-  'Trace who inspected, corrected and approved a batch',
-  'Identify recurring defects over time',
+  'Spot recurring defects earlier across batches',
 ] as const;
 
-export const partnerReceives = [
-  'One month of complimentary Qualti.io access when the pilot-ready version becomes available',
-  'Early access to furniture-specific inspection workflows',
-  'Direct influence over the initial product',
-  'Priority consideration for the first pilot group',
-] as const;
-
-export const qualtiNeeds = [
-  'A 20–30 minute online or offline conversation',
-  'A walkthrough of the current QC process',
-  'Optional anonymised checklist or report',
-  'Feedback on early product concepts',
-  'Optional future pilot participation',
+export const waitlistBenefits = [
+  'Early access when Qualti.io opens to the first factories',
+  'Priority onboarding for furniture QC teams on the list',
+  'Product updates as field audits, defect logging and reports ship',
+  'A direct line to shape the first release with real floor feedback',
 ] as const;
 
 export const faqs = [
   {
     question: 'Is Qualti.io only for furniture manufacturers?',
     answer:
-      'The initial product is being designed specifically around furniture production, final inspection, rework and dispatch approval. The underlying platform may later support other manufacturing workflows.',
+      'The initial product is designed specifically around furniture production, final inspection, rework and dispatch approval. The underlying platform may later support other manufacturing workflows.',
+  },
+  {
+    question: 'How does AI fit into the inspection workflow?',
+    answer:
+      'AI assists inspectors and managers — tagging defects from photos, suggesting severity from similar past findings, surfacing recurring issues, and helping draft clearer report summaries. Humans stay in control of pass/fail and dispatch decisions.',
   },
   {
     question: 'Can we use our existing inspection checklist?',
     answer:
-      'Yes. The pilot process begins with your existing Excel, paper or PDF checklist and adapts it into a structured digital workflow.',
+      'Yes. When you join early access, we start from your existing Excel, paper or PDF checklist and adapt it into a structured digital workflow.',
   },
   {
     question: 'Does it support photographs and defect evidence?',
     answer:
-      'The product is being designed to attach photographs, notes, affected quantities and severity directly to each defect.',
-  },
-  {
-    question: 'Can different buyers use different checklists and reports?',
-    answer:
-      'Buyer-specific templates, requirements and report formats are part of the planned product direction.',
+      'Yes. Photographs, notes, affected quantities and severity attach directly to each defect — and AI can help classify them faster.',
   },
   {
     question: 'Will inspectors be able to use it on a phone?',
     answer:
-      'The inspection experience is being designed mobile-first for factory-floor usage. Full offline support should be confirmed during pilot development.',
+      'The field-audit experience is mobile-first for factory-floor usage. Full offline support will be confirmed as early access opens.',
   },
   {
-    question: 'Are you selling the software already?',
+    question: 'Is Qualti.io available to buy today?',
     answer:
-      'Qualti.io is currently speaking with design partners and preparing initial pilots. Interested companies can schedule a short QC workflow conversation.',
+      'Not yet. Qualti.io is gathering early interest on a waitlist. Join the list to get notified when early access opens for the first furniture QC teams.',
   },
   {
-    question: 'What happens to the documents we share?',
+    question: 'What happens after I join the waitlist?',
     answer:
-      'Documents should be used only to understand and prototype the requested workflow. Companies can anonymise sensitive details before sharing.',
+      'We confirm your spot, send occasional product updates, and reach out when a slot opens for your company type. No commitment required to join.',
   },
 ] as const;
 
@@ -200,7 +192,7 @@ export const structuredData = [
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web, iOS, Android',
     description:
-      'Furniture quality inspection and corrective-action software for factory and pre-dispatch workflows.',
+      'AI-powered furniture quality inspection software for field audits, defect logging and buyer-ready inspection reports.',
     url: SITE_URL,
     image: `${SITE_URL}/brand/qualti-icon.png`,
   },
@@ -214,7 +206,8 @@ export const structuredData = [
 ] as const;
 
 export const productSignals = [
-  { label: 'Inspection type', value: 'Final inspection', icon: Factory },
+  { label: 'AI assist', value: 'Defect tagging', icon: Sparkles },
+  { label: 'Inspection', value: 'Field audits', icon: Factory },
   { label: 'Evidence', value: 'Photos and notes', icon: FileCheck2 },
   { label: 'Decision', value: 'Pending rework', icon: ShieldCheck },
   { label: 'Report', value: 'Buyer-ready', icon: BadgeCheck },

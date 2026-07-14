@@ -9,8 +9,8 @@ export function SiteFooter() {
         <div>
           <BrandMark compact className="text-marketing-ink" />
           <p className="mt-4 max-w-md text-sm leading-7 text-marketing-muted">
-            Furniture quality inspection software for factory floors and pre-dispatch decisions —
-            measurements, photographic evidence, rework and buyer reports in one place.
+            AI-powered quality control for furniture inspections — field audits, defect logging and
+            buyer-ready reports in one place.
           </p>
           <p className="mt-6 text-sm text-marketing-muted">
             &copy; {new Date().getFullYear()} Qualti.io
@@ -47,10 +47,10 @@ export function SiteFooter() {
               </li>
               <li>
                 <a
-                  href="#lead-form"
+                  href="#waitlist"
                   className="text-sm text-marketing-muted transition-colors hover:text-marketing-ink"
                 >
-                  Design partner form
+                  Join the waitlist
                 </a>
               </li>
             </ul>

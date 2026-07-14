@@ -14,7 +14,7 @@ export type SubmitLeadResult =
     };
 
 const missingEndpointMessage =
-  'Lead capture is not configured yet. Please email the Qualti.io team or configure NEXT_PUBLIC_LEAD_ENDPOINT.';
+  'Waitlist signup is not configured yet. Please email the Qualti.io team or configure NEXT_PUBLIC_LEAD_ENDPOINT.';
 
 export async function submitLead(
   input: LeadSubmissionInput,
@@ -43,7 +43,7 @@ export async function submitLead(
         ok: false,
         reason: 'request_failed',
         message:
-          'The lead endpoint did not accept the request. Please try again or email the Qualti.io team.',
+          'The waitlist endpoint did not accept the request. Please try again or email the Qualti.io team.',
       };
     }
 

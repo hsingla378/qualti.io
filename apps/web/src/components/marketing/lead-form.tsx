@@ -13,7 +13,6 @@ import {
   companyTypes,
   leadFormSchema,
   monthlyInspectionRanges,
-  preferredMeetingTypes,
   qcProcesses,
   toLeadSubmissionInput,
   type LeadFormValues,
@@ -29,11 +28,9 @@ const defaultValues: LeadFormValues = {
   companyName: '',
   role: '',
   companyType: 'Furniture manufacturer',
-  preferredMeetingType: 'No preference',
   currentQcProcess: '',
   monthlyInspections: '',
   message: '',
-  preferredDateTime: '',
   consent: false,
 };
 
@@ -61,6 +58,7 @@ export function LeadForm() {
       trackMarketingEvent('lead_form_submitted', {
         companyType: input.companyType,
         monthlyInspections: input.monthlyInspections ?? 'not_provided',
+        intent: 'waitlist',
       });
       form.reset(defaultValues);
     } else {
@@ -72,7 +70,7 @@ export function LeadForm() {
 
   return (
     <form
-      id="lead-form"
+      id="waitlist-form"
       className="rounded-xl border border-marketing-line bg-white p-4 sm:p-6"
       onFocusCapture={markStarted}
       onSubmit={form.handleSubmit(onSubmit)}
@@ -80,14 +78,13 @@ export function LeadForm() {
     >
       <div>
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-marketing-primary">
-          Design partner conversation
+          Waitlist
         </p>
         <h3 className="mt-2 font-heading text-2xl font-semibold tracking-tight text-marketing-ink">
-          Schedule a QC conversation
+          Join the early access list
         </h3>
         <p className="mt-2 text-[15px] leading-6 text-marketing-muted">
-          Give us 20–30 minutes on your furniture QC process. An anonymised checklist or report is
-          optional.
+          Tell us who you are and we&apos;ll reserve your spot. Takes under a minute.
         </p>
       </div>
 
@@ -193,47 +190,20 @@ export function LeadForm() {
             </option>
           ))}
         </SelectField>
-        <SelectField
-          id="preferredMeetingType"
-          label="Preferred meeting type"
-          disabled={isSubmitting}
-          error={form.formState.errors.preferredMeetingType?.message}
-          {...form.register('preferredMeetingType')}
-        >
-          {preferredMeetingTypes.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </SelectField>
-        <Field
-          id="preferredDateTime"
-          label="Preferred date/time (optional)"
-          error={form.formState.errors.preferredDateTime?.message}
-        >
-          <Input
-            id="preferredDateTime"
-            autoComplete="off"
-            disabled={isSubmitting}
-            className="h-11 text-[15px]"
-            placeholder="For example, next Tuesday afternoon"
-            {...form.register('preferredDateTime')}
-          />
-        </Field>
       </div>
 
       <Field
         id="message"
-        label="Message (optional)"
+        label="Anything we should know? (optional)"
         error={form.formState.errors.message?.message}
         className="mt-4"
       >
         <textarea
           id="message"
-          rows={4}
+          rows={3}
           disabled={isSubmitting}
-          className="min-h-28 w-full rounded-lg border border-input bg-background px-3 py-2 text-[15px] shadow-xs transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
-          placeholder="Tell us anything useful about your current inspection or reporting process."
+          className="min-h-24 w-full rounded-lg border border-input bg-background px-3 py-2 text-[15px] shadow-xs transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+          placeholder="Biggest QC pain, products you inspect, or when you’d want to start."
           {...form.register('message')}
         />
       </Field>
@@ -249,8 +219,8 @@ export function LeadForm() {
             {...form.register('consent')}
           />
           <span>
-            I agree that Qualti.io may contact me to arrange a short QC workflow conversation.
-            Confidential documents can be anonymised before sharing.
+            I agree that Qualti.io may contact me about waitlist status and early access. No spam —
+            just product updates when they matter.
           </span>
         </label>
         {form.formState.errors.consent?.message ? (
@@ -262,11 +232,6 @@ export function LeadForm() {
 
       {result ? <SubmissionMessage result={result} /> : null}
 
-      {/* <p className="mt-5 rounded-md border border-emerald-200 bg-emerald-50 p-3 text-[15px] leading-6 text-emerald-950">
-        Your company will receive one month of complimentary access when the pilot-ready version of
-        Qualti.io is available.
-      </p> */}
-
       <Button
         type="submit"
         disabled={isSubmitting}
@@ -275,10 +240,10 @@ export function LeadForm() {
         {isSubmitting ? (
           <>
             <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-            Sending request...
+            Joining waitlist...
           </>
         ) : (
-          'Schedule a QC conversation'
+          'Join the waitlist'
         )}
       </Button>
     </form>
@@ -361,7 +326,7 @@ function SubmissionMessage({ result }: { result: SubmitLeadResult }) {
         aria-live="polite"
       >
         <CheckCircle2 className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-        <p>Thank you. We&apos;ll contact you to arrange a short QC workflow conversation.</p>
+        <p>You&apos;re on the waitlist. We&apos;ll email you when early access opens.</p>
       </div>
     );
   }

@@ -1,9 +1,7 @@
 export type MarketingEventName =
   | 'hero_qc_review_clicked'
-  | 'design_partner_join_clicked'
-  | 'qc_conversation_clicked'
+  | 'waitlist_join_clicked'
   | 'workflow_view_clicked'
-  | 'design_partner_cta_clicked'
   | 'lead_form_started'
   | 'lead_form_submitted'
   | 'lead_form_failed';

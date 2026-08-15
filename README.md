@@ -7,18 +7,16 @@ Enterprise inspection SaaS monorepo.
 ```
 apps/
   web/    Next.js frontend
-  api/    Hono API server
+  api/    NestJS API server (Prisma)
 packages/
-  ui/      Shared React components
-  types/   Shared TypeScript types
-  config/  Shared ESLint & TS configs
-  db/      Drizzle schema & database utilities
+  config/ Shared ESLint & TS configs
 ```
 
 ## Prerequisites
 
 - Node.js 20+
 - pnpm 9+
+- Docker (for local Postgres)
 
 ## Scripts
 
@@ -33,7 +31,9 @@ packages/
 ## Getting started
 
 ```bash
+docker compose up -d
 pnpm install
+pnpm --filter api db:migrate
 pnpm dev
 ```
 

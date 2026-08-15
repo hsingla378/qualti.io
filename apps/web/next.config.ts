@@ -8,7 +8,6 @@ const monorepoRoot = path.resolve(
 );
 
 const nextConfig: NextConfig = {
-  transpilePackages: ['@qualti/ui', '@qualti/types'],
   turbopack: {
     root: monorepoRoot,
   },

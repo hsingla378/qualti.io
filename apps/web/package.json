@@ -8,14 +8,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
-    "test": "vitest",
-    "test:watch": "vitest --watch"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
-    "@qualti/types": "workspace:*",
-    "@qualti/ui": "workspace:*",
     "@tanstack/react-query": "^5.101.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -34,17 +30,11 @@
   "devDependencies": {
     "@qualti/config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.10",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^22.15.32",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "@vitejs/plugin-react": "^6.0.3",
     "eslint": "^10.4.1",
-    "jsdom": "^29.1.1",
     "tailwindcss": "^4.1.10",
-    "typescript": "^6.0.3",
-    "vitest": "^4.1.9"
+    "typescript": "^6.0.3"
   }
 }

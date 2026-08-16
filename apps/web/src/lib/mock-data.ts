@@ -23,17 +23,6 @@ export type Site = {
   status: "active" | "inactive"
 }
 
-export type Template = {
-  id: string
-  name: string
-  category: string
-  version: number
-  fieldsCount: number
-  status: "draft" | "published" | "archived"
-  updatedAt: string
-  usageCount: number
-}
-
 export type Inspection = {
   id: string
   title: string
@@ -129,69 +118,6 @@ export const sites: Site[] = [
     inspectionsCount: 14,
     openIssues: 0,
     status: "inactive",
-  },
-]
-
-export const templates: Template[] = [
-  {
-    id: "tpl_1",
-    name: "Incoming Material QC",
-    category: "Quality Control",
-    version: 3,
-    fieldsCount: 24,
-    status: "published",
-    updatedAt: "2026-06-08",
-    usageCount: 156,
-  },
-  {
-    id: "tpl_2",
-    name: "Warehouse Safety Audit",
-    category: "Safety",
-    version: 2,
-    fieldsCount: 38,
-    status: "published",
-    updatedAt: "2026-06-05",
-    usageCount: 89,
-  },
-  {
-    id: "tpl_3",
-    name: "Production Line Inspection",
-    category: "Manufacturing",
-    version: 5,
-    fieldsCount: 42,
-    status: "published",
-    updatedAt: "2026-06-01",
-    usageCount: 203,
-  },
-  {
-    id: "tpl_4",
-    name: "Supplier Self-Inspection",
-    category: "Supplier QC",
-    version: 1,
-    fieldsCount: 18,
-    status: "draft",
-    updatedAt: "2026-06-09",
-    usageCount: 0,
-  },
-  {
-    id: "tpl_5",
-    name: "Equipment Maintenance Check",
-    category: "Maintenance",
-    version: 4,
-    fieldsCount: 31,
-    status: "published",
-    updatedAt: "2026-05-28",
-    usageCount: 67,
-  },
-  {
-    id: "tpl_6",
-    name: "Retail Store Compliance",
-    category: "Retail",
-    version: 1,
-    fieldsCount: 22,
-    status: "archived",
-    updatedAt: "2026-03-15",
-    usageCount: 45,
   },
 ]
 

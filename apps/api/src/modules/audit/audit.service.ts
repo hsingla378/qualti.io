@@ -11,12 +11,18 @@ type RecordAuditEventInput = {
   metadata?: Prisma.InputJsonValue;
 };
 
+type AuditWriter = {
+  auditEvent: {
+    create: PrismaService['auditEvent']['create'];
+  };
+};
+
 @Injectable()
 export class AuditService {
   constructor(private readonly prisma: PrismaService) {}
 
-  record(input: RecordAuditEventInput) {
-    return this.prisma.auditEvent.create({
+  record(input: RecordAuditEventInput, db: AuditWriter = this.prisma) {
+    return db.auditEvent.create({
       data: {
         organizationId: input.organizationId,
         actorId: input.actorId,

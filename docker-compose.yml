@@ -2,13 +2,13 @@ services:
   postgres:
     image: postgres:16-alpine
     ports:
-      - '5433:5432'
+      - '5434:5432'
     environment:
       POSTGRES_USER: qualti
       POSTGRES_PASSWORD: qualti
       POSTGRES_DB: qualti_dev
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data_5434:/var/lib/postgresql/data
 
 volumes:
-  postgres_data:
+  postgres_data_5434:

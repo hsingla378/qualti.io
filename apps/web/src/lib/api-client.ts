@@ -19,7 +19,10 @@ export async function apiRequest<T>(path: string, options: ApiRequestOptions = {
 
   if (!response.ok) {
     const body = await response.json().catch(() => null);
-    throw new Error(body?.message ?? 'Something went wrong');
+    const message = body?.message;
+    throw new Error(
+      Array.isArray(message) ? message[0] : (message ?? 'Something went wrong'),
+    );
   }
 
   return response.json() as Promise<T>;

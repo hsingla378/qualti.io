@@ -7,6 +7,7 @@ import { HealthModule } from './modules/health/health.module';
 import { MembershipsModule } from './modules/memberships/memberships.module';
 import { OrganizationsModule } from './modules/organizations/organizations.module';
 import { SitesModule } from './modules/sites/sites.module';
+import { TemplatesModule } from './modules/templates/templates.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 
@@ -26,6 +27,7 @@ import { AuthModule } from './modules/auth/auth.module';
     OrganizationsModule,
     MembershipsModule,
     SitesModule,
+    TemplatesModule,
     AuditModule,
     AuthModule,
   ],

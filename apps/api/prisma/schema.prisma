@@ -25,9 +25,13 @@ model Organization {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  memberships Membership[]
-  sites       Site[]
-  auditEvents AuditEvent[]
+  memberships          Membership[]
+  sites                Site[]
+  inspectionTemplates  InspectionTemplate[]
+  templateVersions     TemplateVersion[]
+  templateSections     TemplateSection[]
+  templateItems        TemplateItem[]
+  auditEvents          AuditEvent[]
 }
 
 model Membership {
@@ -59,6 +63,80 @@ model Site {
   @@unique([id, organizationId])
 }
 
+model InspectionTemplate {
+  id             String   @id @default(cuid())
+  organizationId String
+  name           String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  versions     TemplateVersion[]
+
+  @@index([organizationId, updatedAt])
+  @@unique([id, organizationId])
+}
+
+model TemplateVersion {
+  id              String                @id @default(cuid())
+  organizationId  String
+  templateId      String
+  draftTemplateId String?               @unique
+  versionNumber   Int
+  status          TemplateVersionStatus @default(DRAFT)
+  publishedAt     DateTime?
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  organization Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  template     InspectionTemplate @relation(fields: [templateId, organizationId], references: [id, organizationId], onDelete: Cascade)
+  sections     TemplateSection[]
+
+  @@index([organizationId])
+  @@index([templateId, status])
+  @@unique([templateId, versionNumber])
+  @@unique([id, organizationId])
+}
+
+model TemplateSection {
+  id             String   @id @default(cuid())
+  organizationId String
+  versionId      String
+  name           String
+  sortOrder      Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  version      TemplateVersion @relation(fields: [versionId, organizationId], references: [id, organizationId], onDelete: Cascade)
+  items        TemplateItem[]
+
+  @@index([organizationId])
+  @@index([versionId, sortOrder])
+  @@unique([id, organizationId])
+}
+
+model TemplateItem {
+  id             String           @id @default(cuid())
+  organizationId String
+  sectionId      String
+  name           String
+  type           TemplateItemType
+  sortOrder      Int
+  unit           String?
+  minValue       Float?
+  maxValue       Float?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  organization Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  section      TemplateSection @relation(fields: [sectionId, organizationId], references: [id, organizationId], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([sectionId, sortOrder])
+  @@unique([id, organizationId])
+}
+
 model AuditEvent {
   id             String   @id @default(cuid())
   organizationId String
@@ -80,4 +158,15 @@ enum Role {
   ADMIN
   REVIEWER
   INSPECTOR
+}
+
+enum TemplateVersionStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum TemplateItemType {
+  PASS_FAIL
+  TEXT
+  NUMERIC
 }

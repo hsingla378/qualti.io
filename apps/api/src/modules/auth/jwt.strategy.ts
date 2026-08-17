@@ -8,8 +8,17 @@ import type { AuthenticatedUser, JwtPayload } from './types';
 
 export type { AuthenticatedUser, JwtPayload } from './types';
 
+function readCookieValue(cookies: unknown, name: string): string | null {
+  if (typeof cookies !== 'object' || cookies === null) {
+    return null;
+  }
+
+  const value = (cookies as Record<string, unknown>)[name];
+  return typeof value === 'string' ? value : null;
+}
+
 function cookieExtractor(request: Request): string | null {
-  return request.cookies?.qualti_auth ?? null;
+  return readCookieValue(request.cookies, 'qualti_auth');
 }
 
 @Injectable()

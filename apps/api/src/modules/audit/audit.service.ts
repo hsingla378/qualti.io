@@ -15,8 +15,13 @@ type RecordAuditEventInput = {
 export class AuditService {
   constructor(private readonly prisma: PrismaService) {}
 
-  record(input: RecordAuditEventInput) {
-    return this.prisma.auditEvent.create({
+  // Callers that already hold a transaction pass it here so the audit write
+  // rolls back with the business change instead of landing on the root client.
+  record(
+    input: RecordAuditEventInput,
+    db: Pick<PrismaService, 'auditEvent'> = this.prisma,
+  ) {
+    return db.auditEvent.create({
       data: {
         organizationId: input.organizationId,
         actorId: input.actorId,

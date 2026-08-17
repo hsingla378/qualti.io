@@ -21,6 +21,8 @@ type AuditWriter = {
 export class AuditService {
   constructor(private readonly prisma: PrismaService) {}
 
+  // Callers that already hold a transaction pass it here so the audit write
+  // rolls back with the business change instead of landing on the root client.
   record(input: RecordAuditEventInput, db: AuditWriter = this.prisma) {
     return db.auditEvent.create({
       data: {

@@ -27,11 +27,11 @@ model Organization {
 
   memberships         Membership[]
   sites               Site[]
-  auditEvents         AuditEvent[]
   inspectionTemplates InspectionTemplate[]
   templateVersions    TemplateVersion[]
   templateSections    TemplateSection[]
   templateItems       TemplateItem[]
+  auditEvents         AuditEvent[]
 }
 
 model Membership {
@@ -70,7 +70,7 @@ model InspectionTemplate {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  organization Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   versions     TemplateVersion[]
 
   @@index([organizationId, updatedAt])
@@ -78,15 +78,15 @@ model InspectionTemplate {
 }
 
 model TemplateVersion {
-  id             String                 @id @default(cuid())
-  organizationId String
-  templateId     String
-  versionNumber  Int
-  status         TemplateVersionStatus  @default(DRAFT)
-  publishedAt     DateTime?
+  id              String                @id @default(cuid())
+  organizationId  String
+  templateId      String
   /// Equals templateId while DRAFT and is null once PUBLISHED.
   /// Uniqueness enforces at most one draft per template.
   draftTemplateId String?               @unique
+  versionNumber   Int
+  status          TemplateVersionStatus @default(DRAFT)
+  publishedAt     DateTime?
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
@@ -94,10 +94,10 @@ model TemplateVersion {
   template     InspectionTemplate @relation(fields: [templateId, organizationId], references: [id, organizationId], onDelete: Cascade)
   sections     TemplateSection[]
 
-  @@unique([templateId, versionNumber])
-  @@unique([id, organizationId])
   @@index([organizationId])
   @@index([templateId, status])
+  @@unique([templateId, versionNumber])
+  @@unique([id, organizationId])
 }
 
 model TemplateSection {
@@ -113,9 +113,9 @@ model TemplateSection {
   version      TemplateVersion @relation(fields: [versionId, organizationId], references: [id, organizationId], onDelete: Cascade)
   items        TemplateItem[]
 
-  @@unique([id, organizationId])
   @@index([organizationId])
   @@index([versionId, sortOrder])
+  @@unique([id, organizationId])
 }
 
 model TemplateItem {
@@ -134,9 +134,9 @@ model TemplateItem {
   organization Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   section      TemplateSection @relation(fields: [sectionId, organizationId], references: [id, organizationId], onDelete: Cascade)
 
-  @@unique([id, organizationId])
   @@index([organizationId])
   @@index([sectionId, sortOrder])
+  @@unique([id, organizationId])
 }
 
 model AuditEvent {

@@ -16,7 +16,7 @@ import {
 } from 'class-validator';
 import { TemplateItemType } from '@prisma/client';
 
-function trimString({ value }: { value: unknown }) {
+export function trimString({ value }: { value: unknown }) {
   return typeof value === 'string' ? value.trim() : value;
 }
 

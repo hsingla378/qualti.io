@@ -3,9 +3,13 @@ import type { OrganizationContext } from '../decorators/current-organization.dec
 
 declare global {
   namespace Express {
-    interface User extends AuthenticatedUser {}
+    interface User {
+      id: AuthenticatedUser['id'];
+      email: AuthenticatedUser['email'];
+    }
 
     interface Request {
+      cookies?: Record<string, unknown>;
       organization: OrganizationContext;
     }
   }

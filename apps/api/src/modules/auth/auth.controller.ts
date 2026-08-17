@@ -39,8 +39,11 @@ export class AuthController {
 
     res.cookie(AUTH_COOKIE_NAME, session.accessToken, cookieOptions());
 
-    const { accessToken, ...safeSession } = session;
-    return safeSession;
+    return {
+      user: session.user,
+      organization: session.organization,
+      role: session.role,
+    };
   }
 
   @Post('login')
@@ -52,8 +55,11 @@ export class AuthController {
 
     res.cookie(AUTH_COOKIE_NAME, session.accessToken, cookieOptions());
 
-    const { accessToken, ...safeSession } = session;
-    return safeSession;
+    return {
+      user: session.user,
+      organization: session.organization,
+      role: session.role,
+    };
   }
 
   @Post('logout')

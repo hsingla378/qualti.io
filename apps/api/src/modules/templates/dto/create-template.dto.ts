@@ -7,10 +7,10 @@ import {
   MinLength,
   ValidateNested,
 } from 'class-validator';
-import { TemplateSectionDto } from './template-content.dto';
+import { TemplateSectionDto, trimString } from './template-content.dto';
 
 export class CreateTemplateDto {
-  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
+  @Transform(trimString)
   @IsString()
   @MinLength(1)
   @MaxLength(120)

@@ -1,4 +1,7 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Permission } from '../../common/authorization/permissions';
+import { PermissionsGuard } from '../../common/authorization/permissions.guard';
+import { RequirePermission } from '../../common/authorization/require-permission.decorator';
 import { CurrentOrganization } from '../../common/decorators/current-organization.decorator';
 import type { OrganizationContext } from '../../common/decorators/current-organization.decorator';
 import { OrganizationContextGuard } from '../../common/guards/organization-context.guard';
@@ -8,16 +11,18 @@ import { UpdateTemplateVersionDto } from './dto/update-template-version.dto';
 import { TemplatesService } from './templates.service';
 
 @Controller('templates')
-@UseGuards(JwtAuthGuard, OrganizationContextGuard)
+@UseGuards(JwtAuthGuard, OrganizationContextGuard, PermissionsGuard)
 export class TemplatesController {
   constructor(private readonly templatesService: TemplatesService) {}
 
   @Get()
+  @RequirePermission(Permission.TemplateRead)
   findAll(@CurrentOrganization() organization: OrganizationContext) {
     return this.templatesService.findAll(organization.id);
   }
 
   @Post()
+  @RequirePermission(Permission.TemplateCreate)
   create(
     @CurrentOrganization() organization: OrganizationContext,
     @Body() dto: CreateTemplateDto,
@@ -30,6 +35,7 @@ export class TemplatesController {
   }
 
   @Get(':templateId')
+  @RequirePermission(Permission.TemplateRead)
   findOne(
     @CurrentOrganization() organization: OrganizationContext,
     @Param('templateId') templateId: string,
@@ -38,6 +44,7 @@ export class TemplatesController {
   }
 
   @Patch(':templateId/versions/:versionId')
+  @RequirePermission(Permission.TemplateUpdate)
   updateVersion(
     @CurrentOrganization() organization: OrganizationContext,
     @Param('templateId') templateId: string,
@@ -54,6 +61,7 @@ export class TemplatesController {
   }
 
   @Post(':templateId/versions/:versionId/publish')
+  @RequirePermission(Permission.TemplatePublish)
   publish(
     @CurrentOrganization() organization: OrganizationContext,
     @Param('templateId') templateId: string,
@@ -68,6 +76,7 @@ export class TemplatesController {
   }
 
   @Post(':templateId/versions')
+  @RequirePermission(Permission.TemplateUpdate)
   createVersion(
     @CurrentOrganization() organization: OrganizationContext,
     @Param('templateId') templateId: string,

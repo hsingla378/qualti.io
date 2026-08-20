@@ -6,7 +6,8 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { PageHeader } from '@/components/ui/page-header';
-import { useAuth } from '@/features/auth/hooks';
+import { useAuth, useHasPermission } from '@/features/auth/hooks';
+import { Permission } from '@/features/auth/permissions';
 import type { Site } from '@/features/sites/api';
 import { SiteForm } from '@/features/sites/site-form';
 import { useCreateSite, useDeleteSite, useSites, useUpdateSite } from '@/features/sites/hooks';
@@ -14,6 +15,10 @@ import { useCreateSite, useDeleteSite, useSites, useUpdateSite } from '@/feature
 export default function SitesPage() {
   const { organization } = useAuth();
   const organizationId = organization?.id;
+  const canCreateSite = useHasPermission(Permission.SiteCreate);
+  const canUpdateSite = useHasPermission(Permission.SiteUpdate);
+  const canDeleteSite = useHasPermission(Permission.SiteDelete);
+  const canManageSites = canCreateSite || canUpdateSite || canDeleteSite;
 
   const [createOpen, setCreateOpen] = useState(false);
   const [editingSite, setEditingSite] = useState<Site | null>(null);
@@ -28,10 +33,12 @@ export default function SitesPage() {
   return (
     <div className="space-y-6">
       <PageHeader title="Sites" description="Manage inspection locations across your organization.">
-        <Button onClick={() => setCreateOpen(true)}>
-          <Plus className="size-4" />
-          Add site
-        </Button>
+        {canCreateSite ? (
+          <Button onClick={() => setCreateOpen(true)}>
+            <Plus className="size-4" />
+            Add site
+          </Button>
+        ) : null}
       </PageHeader>
 
       {sitesQuery.isLoading ? (
@@ -43,8 +50,8 @@ export default function SitesPage() {
           icon={MapPin}
           title="No sites yet"
           description="Create your first site so inspections can be organized by location."
-          actionLabel="Add site"
-          onAction={() => setCreateOpen(true)}
+          actionLabel={canCreateSite ? 'Add site' : undefined}
+          onAction={canCreateSite ? () => setCreateOpen(true) : undefined}
         />
       ) : (
         <div className="overflow-hidden rounded-lg border bg-background">
@@ -55,7 +62,9 @@ export default function SitesPage() {
                 <th className="px-4 py-3 font-medium">Code</th>
                 <th className="px-4 py-3 font-medium">Location</th>
                 <th className="px-4 py-3 font-medium">Created</th>
-                <th className="px-4 py-3 text-right font-medium">Actions</th>
+                {canManageSites ? (
+                  <th className="px-4 py-3 text-right font-medium">Actions</th>
+                ) : null}
               </tr>
             </thead>
             <tbody>
@@ -65,27 +74,33 @@ export default function SitesPage() {
                   <td className="px-4 py-3 text-muted-foreground">{site.code || '—'}</td>
                   <td className="px-4 py-3 text-muted-foreground">{site.location || '—'}</td>
                   <td className="px-4 py-3 text-muted-foreground">{formatDate(site.createdAt)}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex justify-end gap-2">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        aria-label={`Edit ${site.name}`}
-                        onClick={() => setEditingSite(site)}
-                      >
-                        <Pencil className="size-4" />
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="icon"
-                        aria-label={`Delete ${site.name}`}
-                        disabled={deleteSite.isPending}
-                        onClick={() => deleteSite.mutate(site.id)}
-                      >
-                        <Trash2 className="size-4" />
-                      </Button>
-                    </div>
-                  </td>
+                  {canManageSites ? (
+                    <td className="px-4 py-3">
+                      <div className="flex justify-end gap-2">
+                        {canUpdateSite ? (
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            aria-label={`Edit ${site.name}`}
+                            onClick={() => setEditingSite(site)}
+                          >
+                            <Pencil className="size-4" />
+                          </Button>
+                        ) : null}
+                        {canDeleteSite ? (
+                          <Button
+                            variant="destructive"
+                            size="icon"
+                            aria-label={`Delete ${site.name}`}
+                            disabled={deleteSite.isPending}
+                            onClick={() => deleteSite.mutate(site.id)}
+                          >
+                            <Trash2 className="size-4" />
+                          </Button>
+                        ) : null}
+                      </div>
+                    </td>
+                  ) : null}
                 </tr>
               ))}
             </tbody>
@@ -93,6 +108,7 @@ export default function SitesPage() {
         </div>
       )}
 
+      {canCreateSite ? (
       <SiteModal title="Create site" open={createOpen} onClose={() => setCreateOpen(false)}>
         <SiteForm
           submitLabel="Create site"
@@ -105,7 +121,9 @@ export default function SitesPage() {
         />
         {createSite.error ? <MutationError error={createSite.error} /> : null}
       </SiteModal>
+      ) : null}
 
+      {canUpdateSite ? (
       <SiteModal title="Edit site" open={Boolean(editingSite)} onClose={() => setEditingSite(null)}>
         {editingSite ? (
           <>
@@ -133,6 +151,7 @@ export default function SitesPage() {
           </>
         ) : null}
       </SiteModal>
+      ) : null}
     </div>
   );
 }

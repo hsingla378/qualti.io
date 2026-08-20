@@ -8,6 +8,9 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { Permission } from '../../common/authorization/permissions';
+import { PermissionsGuard } from '../../common/authorization/permissions.guard';
+import { RequirePermission } from '../../common/authorization/require-permission.decorator';
 import { CurrentOrganization } from '../../common/decorators/current-organization.decorator';
 import type { OrganizationContext } from '../../common/decorators/current-organization.decorator';
 import { OrganizationContextGuard } from '../../common/guards/organization-context.guard';
@@ -17,16 +20,18 @@ import { SitesService } from './sites.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('sites')
-@UseGuards(JwtAuthGuard, OrganizationContextGuard)
+@UseGuards(JwtAuthGuard, OrganizationContextGuard, PermissionsGuard)
 export class SitesController {
   constructor(private readonly sitesService: SitesService) {}
 
   @Get()
+  @RequirePermission(Permission.SiteRead)
   findAll(@CurrentOrganization() organization: OrganizationContext) {
     return this.sitesService.findAll(organization.id);
   }
 
   @Post()
+  @RequirePermission(Permission.SiteCreate)
   create(
     @CurrentOrganization() organization: OrganizationContext,
     @Body() dto: CreateSiteDto,
@@ -35,6 +40,7 @@ export class SitesController {
   }
 
   @Patch(':id')
+  @RequirePermission(Permission.SiteUpdate)
   update(
     @CurrentOrganization() organization: OrganizationContext,
     @Param('id') id: string,
@@ -49,6 +55,7 @@ export class SitesController {
   }
 
   @Delete(':id')
+  @RequirePermission(Permission.SiteDelete)
   remove(
     @CurrentOrganization() organization: OrganizationContext,
     @Param('id') id: string,

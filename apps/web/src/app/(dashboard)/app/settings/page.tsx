@@ -1,3 +1,5 @@
+'use client';
+
 import { Building2, ShieldCheck, Users } from 'lucide-react';
 import { currentOrg, currentUser, teamMembers } from '@/lib/mock-data';
 import { Badge } from '@/components/ui/badge';
@@ -6,9 +8,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PageHeader } from '@/components/ui/page-header';
+import { useHasPermission } from '@/features/auth/hooks';
+import { Permission } from '@/features/auth/permissions';
 import Link from 'next/link';
 
 export default function SettingsPage() {
+  const canReadAudit = useHasPermission(Permission.AuditRead);
   return (
     <div className="space-y-6">
       <PageHeader
@@ -76,22 +81,24 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="size-5 text-muted-foreground" />
-              <CardTitle>Audit log</CardTitle>
-            </div>
-            <CardDescription>
-              Review sign-ins, organization events, and site changes.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button asChild variant="outline">
-              <Link href="/app/settings/audit-log">View audit log</Link>
-            </Button>
-          </CardContent>
-        </Card>
+        {canReadAudit ? (
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="size-5 text-muted-foreground" />
+                <CardTitle>Audit log</CardTitle>
+              </div>
+              <CardDescription>
+                Review sign-ins, organization events, and site changes.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button asChild variant="outline">
+                <Link href="/app/settings/audit-log">View audit log</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        ) : null}
       </div>
 
       <Card>

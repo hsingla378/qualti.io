@@ -1,5 +1,7 @@
 import { apiRequest } from '@/lib/api-client';
 
+import type { Permission } from './permissions';
+
 export type AuthUser = {
   id: string;
   name: string | null;
@@ -16,6 +18,7 @@ export type AuthSession = {
   user: AuthUser;
   organization: AuthOrganization;
   role: string;
+  permissions: Permission[];
 };
 
 export type LoginInput = {
@@ -52,7 +55,11 @@ export function logout() {
 
 export async function getCurrentSession() {
   try {
-    return await apiRequest<AuthSession>('/auth/me');
+    const session = await apiRequest<AuthSession>('/auth/me');
+    return {
+      ...session,
+      permissions: session.permissions ?? [],
+    };
   } catch {
     return null;
   }

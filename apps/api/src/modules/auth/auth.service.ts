@@ -4,9 +4,14 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { Role } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { AuditService } from '../audit/audit.service';
 
+import {
+  permissionsForRole,
+  type Permission,
+} from '../../common/authorization/permissions';
 import { PrismaService } from '../../prisma/prisma.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
@@ -26,7 +31,8 @@ type SessionOrganization = {
 export type AuthSession = {
   user: SessionUser;
   organization: SessionOrganization;
-  role: string;
+  role: Role;
+  permissions: Permission[];
 };
 
 export type SignedAuthSession = AuthSession & {
@@ -113,6 +119,7 @@ export class AuthService {
         slug: result.organization.slug,
       },
       role: result.membership.role,
+      permissions: permissionsForRole(result.membership.role),
     });
   }
 
@@ -175,6 +182,7 @@ export class AuthService {
         slug: membership.organization.slug,
       },
       role: membership.role,
+      permissions: permissionsForRole(membership.role),
     });
   }
 
@@ -218,6 +226,7 @@ export class AuthService {
         slug: membership.organization.slug,
       },
       role: membership.role,
+      permissions: permissionsForRole(membership.role),
     };
   }
 

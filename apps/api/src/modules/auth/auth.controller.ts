@@ -43,6 +43,7 @@ export class AuthController {
       user: session.user,
       organization: session.organization,
       role: session.role,
+      permissions: session.permissions,
     };
   }
 
@@ -59,6 +60,7 @@ export class AuthController {
       user: session.user,
       organization: session.organization,
       role: session.role,
+      permissions: session.permissions,
     };
   }
 

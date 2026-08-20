@@ -4,11 +4,13 @@ import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation';
 
 import { AuthSession, getCurrentSession, logout as logoutRequest } from './api';
+import type { Permission } from './permissions';
 
 type AuthContextValue = {
   user: AuthSession['user'] | null;
   organization: AuthSession['organization'] | null;
   role: string | null;
+  permissions: Permission[];
   isLoading: boolean;
   refresh: () => Promise<void>;
   logout: () => Promise<void>;
@@ -55,6 +57,7 @@ export function AuthProvider({
       user: session?.user ?? null,
       organization: session?.organization ?? null,
       role: session?.role ?? null,
+      permissions: session?.permissions ?? [],
       isLoading,
       refresh,
       logout,

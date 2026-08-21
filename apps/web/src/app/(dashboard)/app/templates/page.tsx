@@ -8,7 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { PageHeader } from '@/components/ui/page-header';
-import { useAuth } from '@/features/auth/hooks';
+import { useAuth, useHasPermission } from '@/features/auth/hooks';
+import { Permission } from '@/features/auth/permissions';
 import { useTemplates } from '@/features/templates/hooks';
 
 const statusVariant: Record<string, 'secondary' | 'success'> = {
@@ -20,6 +21,7 @@ export default function TemplatesPage() {
   const router = useRouter();
   const { organization } = useAuth();
   const organizationId = organization?.id;
+  const canCreateTemplate = useHasPermission(Permission.TemplateCreate);
   const templatesQuery = useTemplates(organizationId);
   const templates = templatesQuery.data ?? [];
   const publishedCount = templates.filter(
@@ -32,12 +34,14 @@ export default function TemplatesPage() {
         title="Templates"
         description="Create and manage versioned inspection templates."
       >
-        <Button asChild>
-          <Link href="/app/templates/new">
-            <Plus className="size-4" />
-            New template
-          </Link>
-        </Button>
+        {canCreateTemplate ? (
+          <Button asChild>
+            <Link href="/app/templates/new">
+              <Plus className="size-4" />
+              New template
+            </Link>
+          </Button>
+        ) : null}
       </PageHeader>
 
       {templatesQuery.isLoading ? (
@@ -49,8 +53,8 @@ export default function TemplatesPage() {
           icon={FileStack}
           title="No templates yet"
           description="Create a furniture QC checklist, keep it as a draft, then publish an immutable version for inspections."
-          actionLabel="New template"
-          onAction={() => router.push('/app/templates/new')}
+          actionLabel={canCreateTemplate ? 'New template' : undefined}
+          onAction={canCreateTemplate ? () => router.push('/app/templates/new') : undefined}
         />
       ) : (
         <div className="overflow-hidden rounded-lg border bg-background">

@@ -8,7 +8,8 @@ import { useMemo, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/ui/page-header';
-import { useAuth } from '@/features/auth/hooks';
+import { useAuth, useHasPermission } from '@/features/auth/hooks';
+import { Permission } from '@/features/auth/permissions';
 import { getCurrentVersion, getDraftVersion, type TemplateWriteInput } from '@/features/templates/api';
 import {
   useCreateTemplateVersion,
@@ -24,6 +25,8 @@ export default function TemplateDetailPage() {
   const templateId = params.templateId;
   const { organization } = useAuth();
   const organizationId = organization?.id;
+  const canUpdateTemplate = useHasPermission(Permission.TemplateUpdate);
+  const canPublishTemplate = useHasPermission(Permission.TemplatePublish);
 
   const [pendingPublish, setPendingPublish] = useState<{
     versionId: string;
@@ -34,7 +37,7 @@ export default function TemplateDetailPage() {
   const template = templateQuery.data;
   const currentVersion = template ? getCurrentVersion(template) : null;
   const draftVersion = template ? getDraftVersion(template) : null;
-  const readOnly = !draftVersion;
+  const readOnly = !draftVersion || !canUpdateTemplate;
 
   const updateVersion = useUpdateTemplateVersion(organizationId ?? '', templateId);
   const publishVersion = usePublishTemplateVersion(organizationId ?? '', templateId);
@@ -57,9 +60,11 @@ export default function TemplateDetailPage() {
         title={template?.name ?? 'Template'}
         description={
           currentVersion
-            ? readOnly
-              ? 'This published version is frozen. Create a new draft to make changes.'
-              : 'Edit the draft, then publish it to freeze an immutable inspection snapshot.'
+            ? !canUpdateTemplate
+              ? 'You can view this template. Ask an owner or admin if you need to change it.'
+              : draftVersion
+                ? 'Edit the draft, then publish it to freeze an immutable inspection snapshot.'
+                : 'This published version is frozen. Create a new draft to make changes.'
             : 'Load a versioned inspection template.'
         }
       >
@@ -104,7 +109,7 @@ export default function TemplateDetailPage() {
                 });
               }}
               extraActions={
-                readOnly ? (
+                !draftVersion && canUpdateTemplate ? (
                   <Button
                     type="button"
                     disabled={createVersion.isPending}
@@ -115,9 +120,8 @@ export default function TemplateDetailPage() {
                 ) : null
               }
               publishAction={
-                readOnly
-                  ? undefined
-                  : {
+                draftVersion && canPublishTemplate
+                  ? {
                       label: `Publish v${currentVersion.versionNumber}`,
                       isPending: isPublishing,
                       onRequest: (input) => {
@@ -127,6 +131,7 @@ export default function TemplateDetailPage() {
                         });
                       },
                     }
+                  : undefined
               }
             />
           </div>

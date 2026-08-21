@@ -5,16 +5,33 @@ import { RefreshCcw, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { PageHeader } from '@/components/ui/page-header';
-import { useAuth } from '@/features/auth/hooks';
+import { useAuth, useHasPermission } from '@/features/auth/hooks';
+import { Permission } from '@/features/auth/permissions';
 import type { AuditEvent } from '@/features/audit/api';
 import { useAuditEvents } from '@/features/audit/hooks';
 
 export default function AuditLogPage() {
   const { organization } = useAuth();
   const organizationId = organization?.id;
+  const canReadAudit = useHasPermission(Permission.AuditRead);
 
-  const auditQuery = useAuditEvents(organizationId);
+  const auditQuery = useAuditEvents(canReadAudit ? organizationId : undefined);
   const events = auditQuery.data ?? [];
+
+  if (!canReadAudit) {
+    return (
+      <div className="space-y-6">
+        <PageHeader
+          title="Audit log"
+          description="Review security and data changes across your organization."
+        />
+        <div className="rounded-lg border bg-muted/30 p-6 text-sm text-muted-foreground">
+          You do not have permission to view the audit log. Ask an owner, admin, or reviewer if
+          you need access.
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

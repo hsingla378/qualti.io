@@ -3,6 +3,7 @@
 import { useContext } from 'react';
 
 import { AuthContext } from './auth-provider';
+import type { Permission } from './permissions';
 
 export function useAuth() {
   const context = useContext(AuthContext);
@@ -12,4 +13,9 @@ export function useAuth() {
   }
 
   return context;
+}
+
+export function useHasPermission(permission: Permission) {
+  const { permissions } = useAuth();
+  return permissions.includes(permission);
 }

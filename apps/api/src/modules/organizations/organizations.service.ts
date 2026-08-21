@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { permissionsForRole } from '../../common/authorization/permissions';
 import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
@@ -61,6 +62,7 @@ export class OrganizationsService {
       slug: membership.organization.slug,
       role: membership.role,
       userId: membership.userId,
+      permissions: permissionsForRole(membership.role),
     };
   }
 }

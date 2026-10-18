@@ -458,17 +458,11 @@ Install dependencies:
 pnpm install
 ```
 
-Create environment files:
+Create environment files (each app owns its own):
 
 ```bash
-cp .env.example .env
-```
-
-If application-specific files exist:
-
-```bash
-cp apps/web/.env.example apps/web/.env.local
 cp apps/api/.env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env.local
 ```
 
 Start local infrastructure:

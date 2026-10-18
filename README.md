@@ -44,3 +44,9 @@ pnpm dev
 - API: http://localhost:3001
 
 See [`docs/development.md`](./docs/development.md) for the full local setup.
+
+## License
+
+Qualti.io is licensed under the [GNU Affero General Public License v3.0](./LICENSE) (AGPL-3.0-only).
+You can use, modify, and self-host it. If you run a modified version as a network service,
+you must make your modified source available to its users.

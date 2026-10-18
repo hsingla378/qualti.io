@@ -323,10 +323,11 @@ For example:
 pnpm install
 ```
 
-Copy the example environment configuration:
+Copy the example environment configuration for each app:
 
 ```bash
-cp .env.example .env
+cp apps/api/.env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env.local
 ```
 
 Start local infrastructure where required:

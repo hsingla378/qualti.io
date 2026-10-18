@@ -32,10 +32,15 @@ packages/
 
 ```bash
 docker compose up -d
+cp apps/api/.env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env.local   # optional; defaults work locally
 pnpm install
 pnpm --filter api db:migrate
+pnpm --filter api db:seed                      # optional demo user: demo@qualti.io / password123
 pnpm dev
 ```
 
 - Web: http://localhost:3000
 - API: http://localhost:3001
+
+See [`docs/development.md`](./docs/development.md) for the full local setup.
